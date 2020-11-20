@@ -30,8 +30,8 @@ namespace PazaryeriEntegrasyon.Controllers
         }
 
         [HttpPost]
-        [Route("getShipmentProviders")]
-        public async Task<List<ShipmentProvider>> getShipmentProviders(TrendYolAuthorization authorizationItems)
+        [Route("getTrendYolShipmentProviders")]
+        public async Task<List<ShipmentProvider>> getTrendYolShipmentProviders(TrendYolAuthorization authorizationItems)
         {
             CreateAuthorization authorization=new CreateAuthorization(authorizationItems.apiKey,authorizationItems.apiSecret); 
 
@@ -44,7 +44,35 @@ namespace PazaryeriEntegrasyon.Controllers
             return deserializedShipmentProvider;
         }
 
+        [HttpPost]
+        [Route("getTrendyolBranchs")]
+        public async Task<Brands> getTrendyolBranchs(TrendYolAuthorization authorizationItems)
+        {
+            CreateAuthorization authorization=new CreateAuthorization(authorizationItems.apiKey,authorizationItems.apiSecret); 
 
+            HttpClient trendyolClient = new HttpClient();
+            trendyolClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", authorization.basicAuthorization);
+            HttpResponseMessage responseTrendyolShipmentProviders=await trendyolClient.GetAsync(TrendyolEndPoints.trendyolBrandsEnpoint);
+
+            var trendyolResponseResult = responseTrendyolShipmentProviders.Content.ReadAsStringAsync().ContinueWith(task => task.Result).Result;
+            Brands deserializedBranchs= JsonConvert.DeserializeObject<Brands>(trendyolResponseResult);
+            return deserializedBranchs;
+        }
+
+        [HttpPost]
+        [Route("getTrendyolCategories")]
+        public async Task<TrendYolCategory> getTrendyolCategories(TrendYolAuthorization authorizationItems)
+        {
+            CreateAuthorization authorization=new CreateAuthorization(authorizationItems.apiKey,authorizationItems.apiSecret); 
+
+            HttpClient trendyolClient = new HttpClient();
+            trendyolClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", authorization.basicAuthorization);
+            HttpResponseMessage responseTrendyolShipmentProviders=await trendyolClient.GetAsync(TrendyolEndPoints.trendyolCategoryEnpoint);
+
+            var trendyolResponseResult = responseTrendyolShipmentProviders.Content.ReadAsStringAsync().ContinueWith(task => task.Result).Result;
+            TrendYolCategory deserializedCategory= JsonConvert.DeserializeObject<TrendYolCategory>(trendyolResponseResult);
+            return deserializedCategory;
+        }
 
 
         [HttpPost]
