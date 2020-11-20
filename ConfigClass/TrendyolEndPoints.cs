@@ -7,5 +7,6 @@ namespace PazaryeriEntegrasyon
 //Capital letters are equalized.
     public static class TrendyolEndPoints{
         public static string trendyolSupplierAddressEnpoint="https://api.trendyol.com/sapigw/suppliers/{0}/addresses";
+        public static string trendyolShipmentProvidersEnpoint="https://api.trendyol.com/sapigw/shipment-providers";
     }
 }

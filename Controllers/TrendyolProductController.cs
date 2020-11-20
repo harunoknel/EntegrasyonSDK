@@ -30,6 +30,24 @@ namespace PazaryeriEntegrasyon.Controllers
         }
 
         [HttpPost]
+        [Route("getShipmentProviders")]
+        public async Task<List<ShipmentProvider>> getShipmentProviders(TrendYolAuthorization authorizationItems)
+        {
+            CreateAuthorization authorization=new CreateAuthorization(authorizationItems.apiKey,authorizationItems.apiSecret); 
+
+            HttpClient trendyolClient = new HttpClient();
+            trendyolClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", authorization.basicAuthorization);
+            HttpResponseMessage responseTrendyolShipmentProviders=await trendyolClient.GetAsync(TrendyolEndPoints.trendyolShipmentProvidersEnpoint);
+
+            var trendyolResponseResult = responseTrendyolShipmentProviders.Content.ReadAsStringAsync().ContinueWith(task => task.Result).Result;
+            List<ShipmentProvider> deserializedShipmentProvider= JsonConvert.DeserializeObject<List<ShipmentProvider>>(trendyolResponseResult);
+            return deserializedShipmentProvider;
+        }
+
+
+
+
+        [HttpPost]
         [Route("sendProduct")]
         public Item sendTrendyolProduct(Item trendyolProduct)
         {
