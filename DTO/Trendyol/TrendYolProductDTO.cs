@@ -27,6 +27,7 @@ public class TrendYolProduct{
         public int cargoCompanyId { get; set; } 
         public List<Image> images { get; set; } 
         public List<Attribute> attributes { get; set; } 
+
     }
          public class Image    {
         public string url { get; set; } 

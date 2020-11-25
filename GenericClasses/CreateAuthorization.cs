@@ -9,6 +9,7 @@ namespace PazaryeriEntegrasyon.GenericClasses
         public CreateAuthorization(string apikey, string apisecret)
         {
             basicAuthorization = Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(apikey + ":" + apisecret));
+
         }
     }
 

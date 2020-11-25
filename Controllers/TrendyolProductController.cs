@@ -268,7 +268,25 @@ namespace PazaryeriEntegrasyon.Controllers
             attribute.attributeId = 338;
             attribute.attributeValueId = 6980;
             trendyolProduct.attributes = new List<DTO.TrendYol.Attribute>();
-            trendyolProduct.attributes.Add(attribute);
+
+            trendyolProduct.attributes.Add(new DTO.TrendYol.Attribute{
+                attributeId=346,
+                attributeValueId=4290
+            });
+            trendyolProduct.attributes.Add(new DTO.TrendYol.Attribute{
+                attributeId=343,
+                attributeValueId=4294
+            });
+             trendyolProduct.attributes.Add(new DTO.TrendYol.Attribute{
+                attributeId=338,
+                attributeValueId=5180
+            });
+             trendyolProduct.attributes.Add(new DTO.TrendYol.Attribute{
+                attributeId=47,
+                customAttributeValue="Kahverengi"
+            });
+            
+      
             TrendYolProduct product = new TrendYolProduct();
             product.itemList = new DTO.TrendYol.Items();
             product.itemList.items=new List<Item>();
@@ -281,8 +299,10 @@ namespace PazaryeriEntegrasyon.Controllers
             request.AddHeader("Authorization", "Basic " + authorization.basicAuthorization);
             request.AddHeader("Content-Type", "application/json");
             string jsondata = JsonConvert.SerializeObject(product.itemList);
-            jsondata="{\"items\""+jsondata.ToString()+"}";
-            request.AddParameter("application/json", JsonConvert.SerializeObject(product.itemList), ParameterType.RequestBody);
+            string textsearch="\"attributeValueId\":0,";
+            int index=jsondata.IndexOf("\"attributeValueId\":0,",0,jsondata.Length-1);
+            jsondata=jsondata.Remove(index,textsearch.Length);
+            request.AddParameter("application/json", JsonConvert.DeserializeObject(jsondata), ParameterType.RequestBody);
             IRestResponse response = client.Execute(request);
             Console.WriteLine(response.Content);
             TrendYolProductResponse deserializedTrendTolResponse = JsonConvert.DeserializeObject<TrendYolProductResponse>(response.Content);
