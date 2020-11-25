@@ -7,7 +7,7 @@ namespace PazaryeriEntegrasyon.DTO.TrendYol
 //Capital letters are equalized.
 
 public class TrendYolProduct{
-    public List<Item> items{get;set;}
+    public Items itemList{get;set;}
     public TrendYolAuthorization authorization{get;set;}
 }
     public class Item {
@@ -36,5 +36,9 @@ public class TrendYolProduct{
         public int attributeId { get; set; } 
         public int attributeValueId { get; set; } 
         public string customAttributeValue { get; set; } 
+    }
+
+    public class Items{
+        public List<Item> items{get;set;}
     }
 }

@@ -270,17 +270,19 @@ namespace PazaryeriEntegrasyon.Controllers
             trendyolProduct.attributes = new List<DTO.TrendYol.Attribute>();
             trendyolProduct.attributes.Add(attribute);
             TrendYolProduct product = new TrendYolProduct();
-            product.items = new List<Item>();
-            product.items.Add(trendyolProduct);
+            product.itemList = new DTO.TrendYol.Items();
+            product.itemList.items=new List<Item>();
+            product.itemList.items.Add(trendyolProduct);
 
             CreateAuthorization authorization = new CreateAuthorization(trendyolProductRequest.authorization.apiKey, trendyolProductRequest.authorization.apiSecret);
             var client = new RestClient(string.Format(TrendYolEndPoints.trendyolProductCreateEndPoint, trendyolProductRequest.authorization.SupplierID));
             client.Timeout = -1;
             var request = new RestRequest(Method.POST);
-            request.AddHeader("Authorization", "Basic " + authorization.basicAuthorization + "");
+            request.AddHeader("Authorization", "Basic " + authorization.basicAuthorization);
             request.AddHeader("Content-Type", "application/json");
-            string jsondata = JsonConvert.SerializeObject(product);
-            request.AddParameter("application/json", JsonConvert.SerializeObject(product.items), ParameterType.RequestBody);
+            string jsondata = JsonConvert.SerializeObject(product.itemList);
+            jsondata="{\"items\""+jsondata.ToString()+"}";
+            request.AddParameter("application/json", JsonConvert.SerializeObject(product.itemList), ParameterType.RequestBody);
             IRestResponse response = client.Execute(request);
             Console.WriteLine(response.Content);
             TrendYolProductResponse deserializedTrendTolResponse = JsonConvert.DeserializeObject<TrendYolProductResponse>(response.Content);
@@ -305,7 +307,7 @@ namespace PazaryeriEntegrasyon.Controllers
             var client = new RestClient(string.Format(TrendYolEndPoints.trendyolUpdateProductandStockEndpoint, trendyolProductPriceandStockRequest.authorization.SupplierID));
             client.Timeout = -1;
             var request = new RestRequest(Method.POST);
-            request.AddHeader("Authorization", "Basic " + authorization.basicAuthorization + "");
+            request.AddHeader("Authorization", "Basic " + authorization.basicAuthorization);
             request.AddHeader("Content-Type", "application/json");
             string jsondata = JsonConvert.SerializeObject(trendyolProductPriceandStockRequest.items);
             request.AddParameter("application/json", JsonConvert.SerializeObject(trendyolProductPriceandStockRequest), ParameterType.RequestBody);
