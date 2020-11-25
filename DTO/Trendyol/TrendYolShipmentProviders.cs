@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-namespace PazaryeriEntegrasyon
+namespace PazaryeriEntegrasyon.DTO.TrendYol
 {
 public class ShipmentProvider    
 {
